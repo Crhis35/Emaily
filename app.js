@@ -12,9 +12,21 @@ app.use(
     keys: [keys.cookieKey],
   })
 );
+
+app.use(express.json({ limit: '10kb' }));
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 app.use(passport.initialize());
 app.use(passport.session());
 
 require('./routes/authRoutes')(app);
+require('./routes/billingRoutes')(app);
+
+if (process.env.NODE_ENV === 'production') {
+  //Express will ser up production assets
+  app.use(express.static(`${__dirname}/client/build`));
+  app.get('*', (req, res) => {
+    res.sendFile(`${__dirname}/client/build/index.html`);
+  });
+}
 
 module.exports = app;

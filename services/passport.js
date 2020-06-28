@@ -25,7 +25,7 @@ passport.use(
       try {
         const userExist = await User.findOne({ googleId: profile.id });
         if (userExist) {
-          done(null, userExist);
+          return done(null, userExist);
         }
         const newUser = await User.create({ googleId: profile.id });
         done(null, newUser);
