@@ -6,7 +6,6 @@ import Checkout from '../checkout/checkout.component';
 const Header = ({ currentUser }) => (
   <nav>
     <div className="nav-wrapper">
-      {console.log(currentUser)}
       <Link to={currentUser ? '/surveys' : '/'} className="left brand-logo">
         Emaily
       </Link>
