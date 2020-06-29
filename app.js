@@ -6,7 +6,7 @@ const compression = require('compression');
 require('./services/passport');
 
 const app = express();
-app.use(compression());
+// app.use(compression());
 
 app.use(
   cookieSession({

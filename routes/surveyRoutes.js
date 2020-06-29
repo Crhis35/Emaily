@@ -9,18 +9,15 @@ const User = require('../models/User');
 
 module.exports = (app) => {
   app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
-    const { title, subject, body, recipients } = req.body;
+    const { surveyTitle, subject, body, emails } = req.body.values;
     const surveyNew = await Survey.create({
-      title,
+      title: surveyTitle,
       subject,
       body,
-      recipients: recipients
-        .split(',')
-        .map((email) => ({ email: email.trim() })),
+      recipients: emails.split(',').map((email) => ({ email: email.trim() })),
       _user: req.user.id,
       dateSent: Date.now(),
     });
-
     // Send Email
     try {
       const mailer = new Mailer(surveyNew, surveyTemplate(surveyNew));
@@ -28,8 +25,10 @@ module.exports = (app) => {
       await User.findByIdAndUpdate(req.user.id, { $inc: { credits: -1 } });
 
       const user = await User.findById(req.user.id);
+      console.log(user);
       res.send(user);
     } catch (err) {
+      console.log(err);
       res.status(422).send(err);
     }
   });

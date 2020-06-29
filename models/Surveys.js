@@ -14,7 +14,7 @@ const surveySchema = new mongoose.Schema({
     type: String,
     required: [true, 'Survey must have a subject'],
   },
-  recipents: [Recipient],
+  recipients: [Recipient],
   yes: {
     type: Number,
     default: 0,

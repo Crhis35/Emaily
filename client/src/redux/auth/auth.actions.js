@@ -23,10 +23,13 @@ export const handleToken = (token) => async (dispatch) => {
 };
 
 export const submitSurvey = (values, history) => async (dispatch) => {
+  console.log(history);
   const res = await axios({
     method: 'POST',
     url: '/api/surveys',
-    values,
+    data: {
+      values,
+    },
   });
   history.push('/surveys');
   dispatch({
